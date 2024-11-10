@@ -1,6 +1,6 @@
 const ApiError = require('../api-error')
 const User = require('../models/User')
-
+const jwt = require('jsonwebtoken')
 
 exports.create = async(req,res,next)=>{
     try{
@@ -27,9 +27,12 @@ exports.create = async(req,res,next)=>{
 
 exports.login = async(req,res,next) =>{
         try{
-            await User.find({email: req.body.email, password:req.body.password})
-                .then((data) => res.status(200).json(data))
-                .catch((error) => res.status(404).json({message: `Error login! ${err}`}));
+            const user = await User.find({email: req.body.email, password:req.body.password})
+            const accessToken = jwt.sign({
+                    id:user.id,
+                    admin:user.isAdmin
+                },"secretkey",{expiresIn: '365d'})
+            res.status(200).json(user)   
         }
         catch(error){
             return next(new ApiError(500,"An error occured"))

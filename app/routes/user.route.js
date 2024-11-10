@@ -1,6 +1,6 @@
 const express = require("express");
 const users = require('../controllers/user.controller')
-
+const middlewareController = require('../controllers/middleware')
 const userRoute=express.Router();
 
 userRoute.route("/")

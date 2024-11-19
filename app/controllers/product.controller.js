@@ -50,7 +50,7 @@ exports.findAll = async (req, res, next) => {
 exports.delete = async (req,res,next) =>{
     try{
         await Product.deleteOne({_id:req.params.id})
-        return res.send({message:"User was deleted successfully"});
+        return res.send({message:"Product was deleted successfully"});
     }
     catch(error){
         return next(new ApiError(500,"An error occured while deleting product"))
